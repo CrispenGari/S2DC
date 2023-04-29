@@ -5,7 +5,8 @@ import TypeWriter from "react-native-typewriter";
 import { styles } from "../../styles";
 import { RippleIndicator } from "..";
 import { ResultType } from "../../types";
-
+import * as Haptics from "expo-haptics";
+import { Audio } from "expo-av";
 interface Props {
   setResults: React.Dispatch<React.SetStateAction<ResultType | undefined>>;
 }
@@ -13,7 +14,9 @@ const Form: React.FunctionComponent<Props> = ({ setResults }) => {
   const [symptoms, setSymptoms] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showForm, setShowForm] = React.useState<boolean>(false);
+
   const diagnose = async () => {
+    Haptics.impactAsync();
     if (!!!symptoms.trim()) return;
     setLoading(true);
     const body = JSON.stringify({ symptoms });
@@ -27,11 +30,24 @@ const Form: React.FunctionComponent<Props> = ({ setResults }) => {
     });
     const data: ResultType = await res.json();
     if (!!data) {
+      const { sound, status } = await Audio.Sound.createAsync(
+        require("../../../assets/sounds/notification.mp3"),
+        {
+          shouldPlay: false,
+          isLooping: false,
+          isMuted: false,
+          volume: 1,
+        }
+      );
+      if (status.isLoaded) {
+        await sound.playAsync();
+      }
       setResults(data);
       setLoading(false);
       setSymptoms("");
     }
   };
+
   return (
     <View
       style={{

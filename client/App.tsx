@@ -16,12 +16,13 @@ const toastConfig = {
       style={{
         borderLeftColor: COLORS.secondary,
         width: "100%",
+        marginHorizontal: 10,
         maxWidth: 500,
-        backgroundColor: COLORS.main,
+        backgroundColor: COLORS.primary,
       }}
       contentContainerStyle={{
         paddingHorizontal: 10,
-        backgroundColor: COLORS.main,
+        backgroundColor: COLORS.primary,
       }}
       text1Style={{
         fontSize: 20,
