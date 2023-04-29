@@ -5,7 +5,7 @@ import { COLORS, KEYS } from "../../constants";
 import TypeWriter from "react-native-typewriter";
 import * as Animatable from "react-native-animatable";
 import { styles } from "../../styles";
-import { retrieve, store } from "../../utils";
+import { del, retrieve, store } from "../../utils";
 import { Loading } from "../../components";
 import { SettingsType } from "../../types";
 
@@ -77,23 +77,30 @@ const Landing: React.FunctionComponent<AppNavProps<"Landing">> = ({
             resizeMode: "contain",
           }}
         />
-        <TypeWriter
-          style={[
-            styles.p,
-            {
-              marginVertical: 10,
-              width: "100%",
-              textAlign: "center",
-              color: "white",
-              maxWidth: 500,
-            },
-          ]}
-          typing={1}
-          maxDelay={-50}
+        <View
+          style={{
+            width: "100%",
+            maxWidth: 400,
+            marginVertical: 10,
+            padding: 10,
+            margin: 10,
+          }}
         >
-          Hello, welcome to the S2DC (Sickness to Disease Classifier) tool. This
-          is an AI tool that is used for self diagnosis.
-        </TypeWriter>
+          <TypeWriter
+            style={[
+              styles.p,
+              {
+                textAlign: "center",
+                color: "white",
+              },
+            ]}
+            typing={1}
+            maxDelay={-50}
+          >
+            Hello, welcome to the S2DC (Sickness to Disease Classifier) tool.
+            This is an AI tool that is used for self diagnosis.
+          </TypeWriter>
+        </View>
       </View>
       <View
         style={{
