@@ -10,6 +10,11 @@
 
 This is a demo video showing how the application works.
 
+
+https://user-images.githubusercontent.com/59051957/235310636-f2794234-7705-4867-a7a3-3d1d01b0aad8.mp4
+
+
+
 ### Testing `S2DC` app
 
 You can test this application locally, you just need to follow the following instructions that will help you play around with our tool in development mode.
