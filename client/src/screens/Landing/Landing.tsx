@@ -1,14 +1,31 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { AppNavProps } from "../../params";
-import { COLORS } from "../../constants";
+import { COLORS, KEYS } from "../../constants";
 import TypeWriter from "react-native-typewriter";
 import * as Animatable from "react-native-animatable";
 import { styles } from "../../styles";
+import { retrieve, store } from "../../utils";
+import { Loading } from "../../components";
 
 const Landing: React.FunctionComponent<AppNavProps<"Landing">> = ({
   navigation,
 }) => {
+  const [loading, setLoading] = React.useState<boolean>(true);
+  React.useLayoutEffect(() => {
+    (async () => {
+      const value = await retrieve(KEYS.NEW_TO_APP);
+      if (!!value) {
+        setLoading(false);
+        navigation.replace("Home");
+      } else {
+        setLoading(false);
+      }
+    })();
+  }, [navigation]);
+
+  if (loading) return <Loading loadedFont={true} />;
+
   return (
     <View
       style={{
@@ -89,7 +106,10 @@ const Landing: React.FunctionComponent<AppNavProps<"Landing">> = ({
       >
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => navigation.replace("Home")}
+          onPress={async () => {
+            await store(KEYS.NEW_TO_APP, "not");
+            navigation.replace("Home");
+          }}
           style={[
             styles.button,
             {

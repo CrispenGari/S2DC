@@ -1,7 +1,7 @@
 
 class Prediction:
-    def __init__(self, pattern: str, disease: str, diseaseId: int, confidence: float):
-        self.pattern = pattern
+    def __init__(self, symptoms: str, disease: str, diseaseId: int, confidence: float):
+        self.symptoms = symptoms
         self.disease = disease
         self.diseaseId = diseaseId
         self.confidence = confidence

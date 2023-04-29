@@ -4,6 +4,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 export type AppParamList = {
   Landing: undefined;
   Home: undefined;
+  Settings: undefined;
 };
 
 export type AppNavProps<T extends keyof AppParamList> = {

@@ -1,3 +1,10 @@
+export const serverBaseURL: string =
+  "https://4c1a-102-66-137-117.ngrok-free.app";
+
+export const KEYS = {
+  NEW_TO_APP: "NEW_TO_APP",
+  APP_SETTINGS: "APP_SETTINGS",
+};
 export const COLORS = {
   main: "#B1B2FF",
   primary: "#AAC4FF",
