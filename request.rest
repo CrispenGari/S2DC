@@ -1,0 +1,11 @@
+
+GET http://127.0.0.1:3001
+
+####
+
+POST http://127.0.0.1:3001/api/v1/diagnose
+Content-Type: application/json
+
+{
+    "symptoms" : "i've recently been suffering with chills, lethargy, a cough, a high temperature, and difficulties breathing."
+}
