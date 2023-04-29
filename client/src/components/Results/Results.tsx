@@ -1,10 +1,13 @@
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import React from "react";
-import { COLORS } from "../../constants";
-import { ResultType } from "../../types";
+import { COLORS, FONTS } from "../../constants";
+import { PredictionType } from "../../types";
+import TypeWriter from "react-native-typewriter";
+import { styles } from "../../styles";
+import { ProgressChart } from "react-native-chart-kit";
 
 interface Props {
-  results: ResultType;
+  results: PredictionType;
 }
 const Results: React.FunctionComponent<Props> = ({ results }) => {
   return (
@@ -19,9 +22,76 @@ const Results: React.FunctionComponent<Props> = ({ results }) => {
         shadowRadius: 3,
         shadowOpacity: 1,
         marginVertical: 30,
+        alignItems: "center",
       }}
     >
-      <Text>Results</Text>
+      <TypeWriter
+        style={[
+          styles.p,
+          {
+            marginVertical: 10,
+            width: "100%",
+            color: "white",
+            maxWidth: 500,
+            fontSize: 16,
+          },
+        ]}
+        typing={1}
+        maxDelay={-50}
+      >
+        Based on what you describe to the AI model, here are the results
+      </TypeWriter>
+      <Text
+        style={[
+          {
+            fontSize: 20,
+            textAlign: "center",
+            color: COLORS.white,
+            marginVertical: 10,
+            fontFamily: FONTS.extraBold,
+          },
+        ]}
+      >
+        {results.disease}
+      </Text>
+      <ProgressChart
+        data={{
+          data: [results.confidence, 1 - results.confidence],
+        }}
+        width={250}
+        height={150}
+        strokeWidth={4}
+        radius={2}
+        chartConfig={{
+          backgroundGradientFrom: COLORS.primary,
+          backgroundGradientFromOpacity: 1,
+          backgroundGradientTo: COLORS.primary,
+          backgroundGradientToOpacity: 0.5,
+          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        }}
+        hideLegend={false}
+        style={{
+          marginBottom: 10,
+        }}
+      />
+      <TypeWriter
+        style={[
+          styles.p,
+          {
+            marginVertical: 10,
+            width: "100%",
+            color: "white",
+            maxWidth: 500,
+            fontSize: 16,
+          },
+        ]}
+        typing={1}
+        maxDelay={-50}
+      >
+        {`We have detected that you have ${results.disease} with ${(
+          results.confidence * 100
+        ).toFixed(0)}% confidence.`}
+      </TypeWriter>
     </View>
   );
 };

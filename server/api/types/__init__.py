@@ -14,7 +14,7 @@ class Prediction:
 
     def to_json(self):
         return {
-            'pattern':  self.pattern,
+            'symptoms':  self.symptoms,
             'disease':  self.disease,
             'diseaseId':  self.diseaseId,
             'confidence':  self.confidence,

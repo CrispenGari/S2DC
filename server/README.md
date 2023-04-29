@@ -51,7 +51,7 @@ You will get the response that looks as follows:
     "confidence": 0.66,
     "disease": "pneumonia",
     "diseaseId": 8,
-    "pattern": "i've recently been suffering with chills, lethargy, a cough, a high temperature, and difficulties breathing."
+    "symptoms": "i've recently been suffering with chills, lethargy, a cough, a high temperature, and difficulties breathing."
   },
   "success": true,
   "time": 0.08995652198791504

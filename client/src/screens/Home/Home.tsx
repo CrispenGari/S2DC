@@ -7,23 +7,33 @@ import {
 } from "react-native";
 import React from "react";
 import { AppNavProps } from "../../params";
-import { COLORS } from "../../constants";
+import { COLORS, KEYS } from "../../constants";
 import { Form, Results } from "../../components";
-import { ResultType } from "../../types";
+import { PredictionType, SettingsType } from "../../types";
 import { AntDesign } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
+import { useSettingsStore } from "../../store";
+import { retrieve } from "../../utils";
 
 const Home: React.FunctionComponent<AppNavProps<"Home">> = ({ navigation }) => {
-  const [results, setResults] = React.useState<ResultType | undefined>();
-
+  const [results, setResults] = React.useState<PredictionType | undefined>();
+  const { setSettings, settings } = useSettingsStore((s) => s);
   const [sound, setSound] = React.useState<Audio.Sound | undefined>();
+  React.useEffect(() => {
+    (async () => {
+      const payload = await retrieve(KEYS.APP_SETTINGS);
+      const s: SettingsType = JSON.parse(payload as any);
+      setSettings(s);
+    })();
+  }, [setSettings]);
+
   React.useEffect(() => {
     (async () => {
       const { sound, status } = await Audio.Sound.createAsync(
         require("../../../assets/sounds/medi.mp3"),
         {
-          shouldPlay: true,
+          shouldPlay: settings.music,
           isLooping: true,
           isMuted: false,
           volume: 0.4,
@@ -33,11 +43,11 @@ const Home: React.FunctionComponent<AppNavProps<"Home">> = ({ navigation }) => {
         setSound(sound);
       }
     })();
-  }, []);
+  }, [settings]);
 
   React.useEffect(() => {
     return sound ? () => sound.unloadAsync() : () => {};
-  }, [sound]);
+  }, [sound, settings]);
 
   React.useLayoutEffect(() => {
     let mounted: boolean = true;
@@ -49,6 +59,7 @@ const Home: React.FunctionComponent<AppNavProps<"Home">> = ({ navigation }) => {
           elevation: 0,
           borderBottomColor: "transparent",
           shadowOpacity: 0,
+          height: 50,
           borderBottomWidth: 0,
         },
         headerTitleStyle: {
@@ -69,7 +80,9 @@ const Home: React.FunctionComponent<AppNavProps<"Home">> = ({ navigation }) => {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
-            Haptics.impactAsync();
+            if (settings.haptics) {
+              Haptics.impactAsync();
+            }
             navigation.navigate("Settings");
           }}
           style={{

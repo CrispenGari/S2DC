@@ -1,22 +1,35 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  Keyboard,
+} from "react-native";
 import React from "react";
 import { COLORS, FONTS, serverBaseURL } from "../../constants";
 import TypeWriter from "react-native-typewriter";
 import { styles } from "../../styles";
 import { RippleIndicator } from "..";
-import { ResultType } from "../../types";
+import { PredictionType, ResultType } from "../../types";
 import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
+import { useSettingsStore } from "../../store";
 interface Props {
-  setResults: React.Dispatch<React.SetStateAction<ResultType | undefined>>;
+  setResults: React.Dispatch<React.SetStateAction<PredictionType | undefined>>;
 }
 const Form: React.FunctionComponent<Props> = ({ setResults }) => {
   const [symptoms, setSymptoms] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showForm, setShowForm] = React.useState<boolean>(false);
 
+  const { settings } = useSettingsStore((s) => s);
   const diagnose = async () => {
-    Haptics.impactAsync();
+    if (settings.haptics) {
+      Haptics.impactAsync();
+    }
+
+    Keyboard.dismiss();
     if (!!!symptoms.trim()) return;
     setLoading(true);
     const body = JSON.stringify({ symptoms });
@@ -39,10 +52,19 @@ const Form: React.FunctionComponent<Props> = ({ setResults }) => {
           volume: 1,
         }
       );
-      if (status.isLoaded) {
+      if (status.isLoaded && settings.sound) {
         await sound.playAsync();
       }
-      setResults(data);
+      if (!!data.error) {
+        Alert.alert("S2DC", data.error, [
+          {
+            text: "OK",
+            style: "default",
+          },
+        ]);
+      } else {
+        setResults(data.prediction);
+      }
       setLoading(false);
       setSymptoms("");
     }
@@ -97,6 +119,9 @@ const Form: React.FunctionComponent<Props> = ({ setResults }) => {
             onSubmitEditing={diagnose}
             value={symptoms}
             onChangeText={(text) => setSymptoms(text)}
+            onFocus={() => {
+              setResults(undefined);
+            }}
           />
           <TouchableOpacity
             activeOpacity={0.7}

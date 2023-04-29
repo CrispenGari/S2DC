@@ -7,6 +7,7 @@ import * as Animatable from "react-native-animatable";
 import { styles } from "../../styles";
 import { retrieve, store } from "../../utils";
 import { Loading } from "../../components";
+import { SettingsType } from "../../types";
 
 const Landing: React.FunctionComponent<AppNavProps<"Landing">> = ({
   navigation,
@@ -108,6 +109,12 @@ const Landing: React.FunctionComponent<AppNavProps<"Landing">> = ({
           activeOpacity={0.7}
           onPress={async () => {
             await store(KEYS.NEW_TO_APP, "not");
+            const settings: SettingsType = {
+              haptics: true,
+              music: true,
+              sound: true,
+            };
+            await store(KEYS.APP_SETTINGS, JSON.stringify(settings));
             navigation.replace("Home");
           }}
           style={[

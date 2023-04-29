@@ -1,4 +1,4 @@
-interface PredictionType {
+export interface PredictionType {
   confidence: number;
   disease: string;
   diseaseId: number;
@@ -10,4 +10,10 @@ export interface ResultType {
   success: boolean;
   time: number;
   prediction?: PredictionType;
+}
+
+export interface SettingsType {
+  haptics: boolean;
+  sound: boolean;
+  music: boolean;
 }
