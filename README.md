@@ -22,7 +22,7 @@ You can test this application locally, you just need to follow the following ins
 1. clone this repository by running:
 
 ```shell
-git clone https://github.com/CrispenGari/S2DC.git
+https://github.com/CrispenGari/symptoms-to-disease-classifier.git
 ```
 
 2. navigate to the server by running the following command:
