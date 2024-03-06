@@ -6,14 +6,16 @@
     <img src="logo.png" width="200" alt="logo"/>
 </p>
 
+<p align="center">
+<a href="https://github.com/crispengari/S2DC/actions/workflows/server-ci.yml"><img src="https://github.com/crispengari/S2DC/actions/workflows/server-ci.yml/badge.svg"></a>
+<a href="/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green"></a>
+</p>
+
 ### demo
 
 This is a demo video showing how the application works.
 
-
 https://user-images.githubusercontent.com/59051957/235310636-f2794234-7705-4867-a7a3-3d1d01b0aad8.mp4
-
-
 
 ### Testing `S2DC` app
 
